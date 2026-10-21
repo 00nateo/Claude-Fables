@@ -103,6 +103,7 @@ tool calls, Claude's own words ──► activity log (last 14 lines)
 | `hooks/scene.ts` | The scene format and its validator |
 | `hooks/sprites.ts` | The pixel-art library: Claude in two walk frames, plus 30+ props |
 | `hooks/svg.ts` | Scene → animated SVG: backdrops, particles, props, hero, caption |
+| `hooks/terminal.ts` | Scene → half-block cells for the terminal's `Raster`: the same scenes and styles, two pixels to a cell |
 | `hooks/looks.ts` | The looks: Pixel Art, the Original, and the registry of styles |
 | `hooks/styles/*.ts` | The nine gallery styles, each an art bible: inks, how each kind of element is drawn, Claude, caption, tag, frame |
 | `hooks/art/roles.ts`, `hooks/art/painter.ts`, `hooks/art/ink.ts` | The roles scenes paint their elements under, and the painter a style redraws them with |
