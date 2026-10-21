@@ -59,6 +59,8 @@ While Claude works, Fables watches each tool call it makes and each line it says
 
 To try it from the terminal for one session instead, run `claude --plugin-dir ~/code/Claude-Fables`. In the terminal the cartoon is painted in half-block cells (`hooks/terminal.ts`): the same scenes, Claude and captions at terminal resolution, with each style translated to its inks, lines and textures.
 
+For the desktop's own art in the terminal, set **Terminal art** to `hires` in the plugin's config menu. In Ghostty, kitty or WezTerm, each scene is then played in headless Chrome and shown as a picture: every style exactly as the desktop draws it. It works inside tmux too, when Ghostty or kitty is the terminal beneath. It needs Node and Chrome (or Chromium, Edge or Brave), and uses about half a CPU core while a scene is up; anywhere it cannot show a picture, the band keeps its cells.
+
 ## How it works
 
 <p align="center"><img src="assets/how-it-works.gif" alt="Claude inspecting the activity log in a late-night lab" width="960"></p>
@@ -89,6 +91,7 @@ tool calls, Claude's own words ──► activity log (last 14 lines)
 - **It has limits.** Only one model request runs at a time, scenes come at least 5 seconds apart, and after errors it backs off exponentially, up to 60 seconds. The prompt is always bounded (the last 14 activity lines and the last 4 scenes), so a long session can't outgrow the context window.
 - **It fits the window.** The band always gets a cartoon as wide as it is and 192 px tall. A wider window shows more of the scene, not a bigger one, so the art and the text stay the same size. Resizing the window redraws it.
 - **In the terminal too.** The terminal has no Svg, so `hooks/terminal.ts` paints each scene into a `Raster` of '▀' cells, two pixels to a cell, lays the bubble over it as text, and repaints it in place about eight times a second.
+- **Hi-res in the terminal.** With Terminal art set to `hires`, `renderer/chrome.mjs` runs beside the session: headless Chrome on a pipe of its own, no debugging port. The band writes it each scene's SVG, the same one the desktop draws, sized to the band's cells; it steps the paused SMIL timeline to the scene's own clock and shoots a PNG about eight times a second. The band shows each frame in an `Image`, swapped in place with `$.ui.blit`. Inside tmux Claude Code draws no `Image`, so the band is drawn in blank braille instead, and `renderer/tmux.mjs` lays each frame over it from outside: it finds the band with `tmux capture-pane`, works out where the pane sits on the terminal, and places the picture there with kitty's graphics protocol through tmux's passthrough, which it turns on for the pane and gives back when it goes. tmux knows nothing of the picture, so it is placed again with every frame, and deleted the moment the pane leaves the screen. `FABLES_FPS` (8) and `FABLES_SCALE` (1.5) trade smoothness and sharpness against CPU; `FABLES_CELL_ASPECT` (0.48) is a cell's width over its height, for an unusual font; `FABLES_CHROME` names the browser.
 
 </details>
 
@@ -111,6 +114,9 @@ tool calls, Claude's own words ──► activity log (last 14 lines)
 | `hooks/clawd3d.ts` | The 3D Claude: the box model, its motions and its projection (ported from the gallery) |
 | `hooks/hero3d.ts` | Bakes the posed 3D model into SVG frames that SMIL plays in turn |
 | `hooks/scenery.ts` | The seven authored scenes: light maps, materials, reflections |
+| `hooks/hires.ts` | Hi-res in the terminal: how pictures can be shown, the helper's life, what the band sends it |
+| `renderer/chrome.mjs` | The hi-res helper: plays each scene in headless Chrome and writes its frames |
+| `renderer/tmux.mjs`, `renderer/place.mjs` | Inside tmux: lays the frames over the band, through tmux's passthrough |
 | `types/index.d.ts` | The scene types and the mod's `$.state` contract |
 
 </details>

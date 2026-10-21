@@ -5,6 +5,7 @@ import { DEFAULT_MODEL, Director, findModel, type Host, MODEL_LABELS, NARRATOR_M
 import { DEFAULT_LOOK, findLook, LOOK_NAMES, LOOKS, lookFor } from './looks'
 import type { FablesScene } from '../types'
 
+import { blankCells, type Frame, idle, newHires, pictureMode, sendScene, startHires } from './hires'
 import { H, MAX_SVG, resumeAt, sceneToSvg, speaksAfter, W } from './svg'
 import { termBox, terminalFrame } from './terminal'
 
@@ -108,6 +109,8 @@ type Band = { drawn?: Drawn; box: { width: number; height: number } }
 /** The terminal's band as last drawn: its site, its size, and the scene up and when it went up. */
 type Term = { requestId?: string; columns: number; rows: number; scene?: FablesScene; key?: string; at: number; look: string }
 const RASTER_KEY = 'fables'
+const IMAGE_KEY = 'fables-picture'
+const BLANK_KEY = 'fables-blank'
 /** Frames a second the terminal's cartoon plays at. */
 const TERM_FRAME_MS = 125
 
@@ -175,8 +178,11 @@ export const register: Register = (on, options) => {
   const band: Band = { box: bandBox(NaN) }
   const term: Term = { columns: 0, rows: 0, at: 0, look: DEFAULT_LOOK }
   const showing: Showing = {}
+  const hires = newHires()
   // The config menu's choice is the default; /fables model overrides it.
   const configured = findModel(options.model) ?? DEFAULT_MODEL
+  // The config menu's terminal art: half-block cells unless hi-res is asked for.
+  const hiresWanted = options.terminalArt === 'hires'
   n.model = configured
   n.look = DEFAULT_LOOK
   // The band goes when the work does: no closing scene, and the last scene clears once it has been read.
@@ -206,6 +212,30 @@ export const register: Register = (on, options) => {
       if (demo.step + 1 < LOOK_NAMES.length) await demoShow($, showing, demo.step + 1)
       else await demoEnd($, showing)
     })
+    // Hi-res, where the terminal draws pictures: the cartoon is the desktop's own, played in headless Chrome.
+    const surfaces: readonly string[] = await $.session.surfaces().catch(() => [])
+    const mode = hiresWanted && surfaces.includes('terminal') ? await pictureMode($) : undefined
+    if (mode) {
+      const showFrame = async (frame: Frame) => {
+        // Inside tmux the helper lays its frames over the band itself.
+        if (hires.mode === 'overlay') return
+        const { site } = hires
+        // The half-block band is up until the first frame: draw the band again to put the picture in.
+        if (!site) return $.ui.invalidate('ui.render')
+        const done = await $.ui
+          .blit({ ...site, key: IMAGE_KEY, source: { file: frame.path, format: 'png', generation: frame.generation } })
+          .catch((err: unknown) => ({ deny: String(err) }))
+        if (!('deny' in done) || done.deny === undefined) return
+        hires.site = undefined
+        // A terminal that shows the alt instead, or cannot read the file, keeps the half-block band.
+        if (/alt|placeholder|read/i.test(done.deny)) {
+          $.ui.log(`fables: hi-res frames refused (${done.deny}); drawing in cells`, { to: 'debug' })
+          hires.state = 'failed'
+          $.ui.invalidate('ui.render')
+        }
+      }
+      await startHires($, hires, mode, frame => void showFrame(frame), () => $.ui.invalidate('ui.render'))
+    }
     // The terminal's cartoon plays by repainting its Raster in place.
     $.clock.every(TERM_FRAME_MS, async () => {
       const { requestId, scene: current } = term
@@ -309,7 +339,11 @@ export const register: Register = (on, options) => {
     if (e.props.hasSurvey || (e.surface !== 'desktop' && e.surface !== 'terminal')) return next(e)
     const current = await read($, scene)
     if (!current || (!showing.demo && !(await read($, enabled)))) {
-      if (e.surface === 'terminal') term.requestId = undefined
+      if (e.surface === 'terminal') {
+        term.requestId = undefined
+        hires.site = undefined
+        await idle($, hires)
+      }
       return next(e)
     }
     if (e.surface === 'terminal') {
@@ -320,6 +354,30 @@ export const register: Register = (on, options) => {
       // A redraw of the scene that is up carries on from where it was.
       if (key !== term.key) Object.assign(term, { key, at: now })
       Object.assign(term, { requestId: e.requestId, columns, rows, scene: current, look: await read($, style) })
+      if (hires.state === 'ready') {
+        await sendScene($, hires, current, term.look, columns, rows, term.at)
+        if (hires.mode === 'overlay') {
+          term.requestId = undefined
+          return <Raster key={BLANK_KEY} columns={columns} rows={rows} cells={blankCells(columns, rows)} />
+        }
+        // Until the scene's first frame comes, the last one shows, or the cells for the very first.
+        const { frame } = hires
+        if (frame) {
+          const { Image } = $.ui.resolve(e)
+          term.requestId = undefined
+          hires.site = { requestId: e.requestId, columns, rows }
+          return (
+            <Image
+              key={IMAGE_KEY}
+              source={{ file: frame.path, format: 'png', generation: frame.generation }}
+              columns={columns}
+              rows={rows}
+              alt={current.caption || ' '}
+            />
+          )
+        }
+      }
+      hires.site = undefined
       return <Raster key={RASTER_KEY} columns={columns} rows={rows} cells={termCells(term, current, now)} />
     }
     const { Svg } = $.ui.resolve(e)
