@@ -115,6 +115,9 @@ export const register: Register = (on, options) => {
   const configured = findModel(options.model) ?? DEFAULT_MODEL
   n.model = configured
   n.look = DEFAULT_LOOK
+  // The band goes when the work does: no closing scene, and the last scene clears once it has been read.
+  n.closes = false
+  n.lingerMs = 0
 
   on('session.start', async ($, e, next) => {
     n.isOn = (await $.store.get(STORE_ENABLED)) !== false
@@ -180,8 +183,11 @@ export const register: Register = (on, options) => {
     }
   })
 
-  on('prompt.submit', async ($, e, next) => {
-    n.submit(e.text)
+  // A turn starts with the model, not the prompt: a local slash command is
+  // submitted as a prompt too but never completes a turn, and would leave the
+  // band up for good. A continued turn has no text of its own, and keeps the ask.
+  on('turn.start', async ($, e, next) => {
+    if (e.agentId === undefined) n.submit(e.text || n.ask)
     return next(e)
   })
 
