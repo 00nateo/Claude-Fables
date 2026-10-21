@@ -19,6 +19,7 @@ function world(on: On) {
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('command.register', (_, e) => ({ value: { command: e.name } }))
   on('prompt.submit', (_, e) => ({ text: e.text }))
+  on('ui.blit', () => ({ value: {} }))
   on('ui.render', ($, e) => $.ui.resolve(e).Text({ children: 'engine band' }))
   return clock
 }
@@ -29,7 +30,7 @@ const BAND = {
   props: { hasSurvey: false, isWorking: true, maxRows: 12, bodyColumns: 100, scroll: { offset: 0, bodyRows: 12 }, view: {} },
 } as const
 
-test('activity becomes a scene drawn above the prompt on the desktop only', async ($, on) => {
+test('activity becomes a scene drawn above the prompt: an Svg on the desktop, a Raster in the terminal', async ($, on) => {
   const clock = world(on)
   const asked: string[] = []
   on('model.complete', (_, e) => {
@@ -52,6 +53,14 @@ test('activity becomes a scene drawn above the prompt on the desktop only', asyn
 
   const terminal = await $.ui.mount({ ...BAND, surface: 'terminal' })
   expect(await terminal.find({ type: 'Svg' })).toBe(undefined)
+  const raster = await terminal.find({ type: 'Raster' })
+  const props = raster?.props as { columns: number; rows: number; cells: string } | undefined
+  expect(props?.columns).toBe(100)
+  expect(props?.rows).toBe(10)
+  // Every cell is three u32s: a glyph, a foreground and a background.
+  // The engine's runtime has Uint8Array's base64 methods; es2023's lib does not name them yet.
+  const fromBase64 = (Uint8Array as unknown as { fromBase64(text: string): Uint8Array }).fromBase64
+  expect(fromBase64(props?.cells ?? '').length).toBe(100 * 10 * 12)
   await terminal.unmount()
 })
 

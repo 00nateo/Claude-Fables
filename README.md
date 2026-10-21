@@ -57,7 +57,7 @@ While Claude works, Fables watches each tool call it makes and each line it says
    To work on the mod with hot reload, also add `"CLAUDE_CODE_PLUGIN_DIR_WATCH": "1"`.
 3. Restart the desktop app and give Claude a task in the Code tab. The cartoon appears above the prompt after the first few seconds.
 
-To try it from the terminal for one session instead, run `claude --plugin-dir ~/code/Claude-Fables`. Note that in the terminal the mod only watches and draws nothing.
+To try it from the terminal for one session instead, run `claude --plugin-dir ~/code/Claude-Fables`. In the terminal the cartoon is painted in half-block cells (`hooks/terminal.ts`): the same scenes, Claude and captions at terminal resolution, with each style translated to its inks, lines and textures.
 
 ## How it works
 
@@ -88,7 +88,7 @@ tool calls, Claude's own words ──► activity log (last 14 lines)
 - **Captions fit the bubble.** The narrator is asked for at most 70 characters. The hard limit is 80, the most the bubble shows whole in four lines. A longer caption is cut after its last full sentence, or else after a whole word with an ellipsis, never mid-word. The bubble always shows every word it is given.
 - **It has limits.** Only one model request runs at a time, scenes come at least 5 seconds apart, and after errors it backs off exponentially, up to 60 seconds. The prompt is always bounded (the last 14 activity lines and the last 4 scenes), so a long session can't outgrow the context window.
 - **It fits the window.** The band always gets a cartoon as wide as it is and 192 px tall. A wider window shows more of the scene, not a bigger one, so the art and the text stay the same size. Resizing the window redraws it.
-- **Desktop only.** In the terminal the band is left exactly as the engine draws it.
+- **In the terminal too.** The terminal has no Svg, so `hooks/terminal.ts` paints each scene into a `Raster` of '▀' cells, two pixels to a cell, lays the bubble over it as text, and repaints it in place about eight times a second.
 
 </details>
 

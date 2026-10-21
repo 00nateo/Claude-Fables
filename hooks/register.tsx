@@ -6,6 +6,7 @@ import { DEFAULT_LOOK, findLook, LOOK_NAMES, LOOKS, lookFor } from './looks'
 import type { FablesScene } from '../types'
 
 import { H, MAX_SVG, resumeAt, sceneToSvg, speaksAfter, W } from './svg'
+import { termBox, terminalFrame } from './terminal'
 
 const scene = atom({ plugin: 'fables', key: 'scene' } as const, null)
 const enabled = atom({ plugin: 'fables', key: 'enabled' } as const, true)
@@ -43,7 +44,12 @@ function host($: EngineInterface, band: Band): Host {
     now: () => $.clock.now(),
     complete: ask => $.model.complete(ask),
     show: drawn => update($, scene, () => drawn),
-    speaksAfter: async next => speaksAfter((await draw($, band, next)).base) * 1000,
+    // The terminal's bubble shows from the start; only the desktop's can wait for Claude.
+    speaksAfter: async next => {
+      const surfaces = await $.session.surfaces().catch(() => undefined)
+      if (surfaces?.length && surfaces.every(s => s === 'terminal')) return 0
+      return speaksAfter((await draw($, band, next)).base) * 1000
+    },
   }
 }
 
@@ -78,6 +84,17 @@ type Drawn = { scene: string; at: number; key: string; base: string }
 /** The drawing kept, and the band's box as last drawn, so a scene can be drawn the moment it goes up. */
 type Band = { drawn?: Drawn; box: { width: number; height: number } }
 
+/** The terminal's band as last drawn: its site, its size, and the scene up and when it went up. */
+type Term = { requestId?: string; columns: number; rows: number; scene?: FablesScene; key?: string; at: number; look: string }
+const RASTER_KEY = 'fables'
+/** Frames a second the terminal's cartoon plays at. */
+const TERM_FRAME_MS = 125
+
+/** The scene, `t` seconds in, at the terminal band's size. */
+function termCells(term: Term, current: FablesScene, now: number) {
+  return terminalFrame(current, term.columns, term.rows, Math.max(0, (now - term.at) / 1000), term.look)
+}
+
 /** The scene in the band's box and style, drawn once and kept: a scene going up starts its clock. */
 async function draw($: EngineInterface, band: Band, next: FablesScene): Promise<Drawn> {
   const look = await read($, style)
@@ -93,6 +110,7 @@ async function draw($: EngineInterface, band: Band, next: FablesScene): Promise<
 export const register: Register = (on, options) => {
   const n = new Director()
   const band: Band = { box: bandBox(NaN) }
+  const term: Term = { columns: 0, rows: 0, at: 0, look: DEFAULT_LOOK }
   // The config menu's choice is the default; /fables model overrides it.
   const configured = findModel(options.model) ?? DEFAULT_MODEL
   n.model = configured
@@ -113,6 +131,16 @@ export const register: Register = (on, options) => {
       argumentHint: '[on|off|style [name|off]|model [sonnet|haiku]]',
     })
     $.clock.every(1000, () => void n.tick(host($, band)))
+    // The terminal's cartoon plays by repainting its Raster in place.
+    $.clock.every(TERM_FRAME_MS, async () => {
+      const { requestId, scene: current } = term
+      if (!requestId || !current) return
+      const done = await $.ui
+        .blit({ requestId, key: RASTER_KEY, cells: termCells(term, current, await $.clock.now()) })
+        .catch(() => ({ deny: 'failed' }))
+      // Gone (unmounted, cleared, resized): stop until the band is drawn again.
+      if ('deny' in done && done.deny !== undefined) term.requestId = undefined
+    })
     return next(e)
   })
 
@@ -183,9 +211,22 @@ export const register: Register = (on, options) => {
   })
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
-    if (e.surface !== 'desktop' || e.props.hasSurvey) return next(e)
+    if (e.props.hasSurvey || (e.surface !== 'desktop' && e.surface !== 'terminal')) return next(e)
     const current = await read($, scene)
-    if (!current || !(await read($, enabled))) return next(e)
+    if (!current || !(await read($, enabled))) {
+      if (e.surface === 'terminal') term.requestId = undefined
+      return next(e)
+    }
+    if (e.surface === 'terminal') {
+      const { Raster } = $.ui.resolve(e)
+      const { columns, rows } = termBox(e.props.bodyColumns, e.props.maxRows)
+      const now = await $.clock.now()
+      const key = JSON.stringify(current)
+      // A redraw of the scene that is up carries on from where it was.
+      if (key !== term.key) Object.assign(term, { key, at: now })
+      Object.assign(term, { requestId: e.requestId, columns, rows, scene: current, look: await read($, style) })
+      return <Raster key={RASTER_KEY} columns={columns} rows={rows} cells={termCells(term, current, now)} />
+    }
     const { Svg } = $.ui.resolve(e)
     // The interactive frame does not size itself from the markup (left alone it
     // is a 300x150 box), so give it the band's box; a new width draws anew.
