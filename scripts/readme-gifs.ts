@@ -71,7 +71,8 @@ const LINES = [
 const LOOK_ORDER = ['pixel', 'original', 'cave', 'blueprint', 'mosaic', 'aero', 'engraving', 'tapestry', 'golden', 'ukiyoe', 'kamon', 'chrome']
 const HERO: Shot[] = LOOK_ORDER.map((look, i) => ({
   look,
-  raw: { ...shuffled(MOVES, 5)[i]!, caption: shuffled(LINES, 11)[i]!, title: lookFor(look).label },
+  // More looks than moves or lines: each list comes round again.
+  raw: { ...shuffled(MOVES, 5)[i % MOVES.length]!, caption: shuffled(LINES, 11)[i % LINES.length]!, title: lookFor(look).label },
   dur: 2.2,
   skip: 0.15,
 }))

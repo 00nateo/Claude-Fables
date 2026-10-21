@@ -34,6 +34,14 @@ describe('looks', () => {
     expect(findLook('nonsense')).toBeUndefined()
   })
 
+  test('every look is found by its own name and by its label, never another look', () => {
+    for (const name of LOOK_NAMES) {
+      const look = LOOKS[name]
+      expect(findLook(name)?.name).toBe(name)
+      expect(findLook(look?.label ?? '')?.name).toBe(name)
+    }
+  })
+
   test('every style draws every backdrop within the Svg limit, never pixelized, keeping the text', () => {
     for (const look of STYLE_NAMES) {
       for (const backdrop of BACKDROPS) {
