@@ -120,6 +120,8 @@ tool calls, Claude's own words ──► activity log (last 14 lines)
 
 - `/fables`: toggle the mod on or off. `/fables on` and `/fables off` also work. The setting is remembered across sessions.
 - `/fables style <name>`: draw every scene in one of the styles below, for example `/fables style ukiyo-e` or `/fables style golden age`. `/fables style` lists them, and `/fables style off` goes back to the default, Pixel Art. It is remembered across sessions.
+- `/fables style shuffle`: draw each new scene in a style picked at random, never the same one twice in a row. Picking a style by name ends it.
+- `/fables demo`: play every style in turn, 8 seconds each on a scene of its own, then go back to your style. It asks the model nothing. `/fables demo stop` ends it early.
 - `/fables pixel off` and `/fables pixel on` still work: they switch between the original look drawn smooth and its pixel art.
 - `/fables model haiku` and `/fables model sonnet`: pick who writes the story. Sonnet is the default and writes wittier scenes; Haiku answers in about a second and costs less, but writes plainer captions and slips a little more often (a bad reply is simply skipped). `/fables model` shows which one is on. The choice is remembered across sessions; the config menu's **Scene model** (`pluginConfigs.fables.model`) sets the default.
 

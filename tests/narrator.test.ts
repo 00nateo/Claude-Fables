@@ -225,6 +225,77 @@ test('resumed long after, a frozen animation still ends just after the start, so
   expect(resumeAt(svg, 30)).toBe('<svg><animate attributeName="width" from="0" to="90" dur="1.2s" begin="-1.19s" fill="freeze"/><animateTransform values="0 0;9 0" dur="2s" repeatCount="2" fill="freeze" begin="-3.99s"/></svg>')
 })
 
+test('/fables demo plays every style in turn without asking the model, then gives the person their style back', async ($, on) => {
+  const clock = world(on)
+  let asked = 0
+  on('model.complete', () => {
+    asked++
+    return answer(JSON.stringify(SCENE))
+  })
+  const run = (args: string) => $.command.run({ command: 'fables', args, origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } })
+  const caption = async (surface: 'desktop' | 'terminal') => {
+    const band = await $.ui.mount({ ...BAND, surface })
+    const found = await band.find({ type: surface === 'desktop' ? 'Svg' : 'Raster' })
+    await band.unmount()
+    return found ? String((found.props as { source?: unknown; alt?: unknown }).alt ?? 'raster') : undefined
+  }
+
+  await $.session.start({ cwd: '/work', surface: 'desktop', isInteractive: true })
+  await run('style kamon')
+  expect((await run('demo')).text).toContain('every style')
+  expect(await caption('desktop')).toContain('1/11 Pixel Art')
+  expect(await caption('terminal')).toBe('raster')
+
+  await clock.advance(8000)
+  expect(await caption('desktop')).toContain('2/11 Original')
+  await clock.advance(8000 * 9)
+  expect(await caption('desktop')).toContain('11/11 Kamon')
+  await clock.advance(8000)
+  expect(await caption('desktop')).toBe(undefined)
+  expect(asked).toBe(0)
+  expect((await run('style')).text).toContain('drawn in Kamon')
+
+  await run('demo')
+  expect((await run('demo stop')).text).toContain('Kamon')
+  expect(await caption('desktop')).toBe(undefined)
+  expect((await run('demo stop')).text).toContain('No demo')
+})
+
+test('/fables style shuffle draws each new scene in a style picked at random, never the one just drawn', async ($, on) => {
+  const clock = world(on)
+  let asked = 0
+  on('model.complete', () => answer(JSON.stringify({ ...SCENE, caption: `Scene number ${++asked}.` })))
+  const run = (args: string) => $.command.run({ command: 'fables', args, origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } })
+  const drawn = async () => {
+    const desktop = await $.ui.mount({ ...BAND, surface: 'desktop' })
+    const svg = await desktop.find({ type: 'Svg' })
+    await desktop.unmount()
+    const props = svg?.props as { source?: unknown; alt?: unknown } | undefined
+    return { look: /data-look="([^"]+)"/.exec(String(props?.source))?.[1], caption: String(props?.alt) }
+  }
+
+  await $.session.start({ cwd: '/work', surface: 'desktop', isInteractive: true })
+  await run('style kamon')
+  expect((await run('style shuffle')).text).toContain('random')
+  expect((await run('style')).text).toContain('▸ shuffle')
+
+  await ask($, 'tidy the README')
+  await clock.advance(1000)
+  const seen = [await drawn()]
+  for (let i = 0; i < 60 && seen.length < 4; i++) {
+    await ask($, `step ${i}`)
+    await clock.advance(1000)
+    const now = await drawn()
+    if (now.caption !== seen[seen.length - 1]?.caption) seen.push(now)
+  }
+  expect(seen.length).toBe(4)
+  for (let i = 1; i < seen.length; i++) expect(seen[i]?.look).not.toBe(seen[i - 1]?.look)
+
+  // Picking a style by name ends the shuffle.
+  expect((await run('style ukiyoe')).text).toContain('Ukiyo-e')
+  expect((await run('style')).text).toContain('▸ ukiyoe')
+})
+
 test('the band clears soon after the turn ends, with no closing scene, slash commands or not', async ($, on) => {
   const clock = world(on)
   let asked = 0
