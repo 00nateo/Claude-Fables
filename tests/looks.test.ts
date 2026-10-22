@@ -21,8 +21,8 @@ describe('looks', () => {
     expect(lookFor(undefined).name).toBe(DEFAULT_LOOK)
   })
 
-  test('the fifteen styles are there, and found by any fair spelling', () => {
-    expect(STYLE_NAMES.length).toBe(15)
+  test('the twenty styles are there, and found by any fair spelling', () => {
+    expect(STYLE_NAMES.length).toBe(20)
     expect(findLook('Ukiyo-e')?.name).toBe('ukiyoe')
     expect(findLook('golden age')?.name).toBe('golden')
     expect(findLook('frutiger aero')?.name).toBe('aero')
@@ -36,6 +36,11 @@ describe('looks', () => {
     expect(findLook('Delftware')?.name).toBe('delft')
     expect(findLook('Celestial Atlas')?.name).toBe('atlas')
     expect(findLook('Chronophotography')?.name).toBe('chrono')
+    expect(findLook('Art Nouveau')?.name).toBe('nouveau')
+    expect(findLook('Cubism')?.name).toBe('cubism')
+    expect(findLook('Bauhaus')?.name).toBe('bauhaus')
+    expect(findLook('Tattoo Flash')?.name).toBe('tattoo')
+    expect(findLook('Mid-Century Modern')?.name).toBe('midcentury')
     expect(findLook('nonsense')).toBeUndefined()
   })
 
