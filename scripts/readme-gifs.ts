@@ -68,7 +68,7 @@ const LINES = [
   'Lint is clean. Time for a snack.',
   'Shipping v2.0. Party like it is 1999.',
 ]
-const LOOK_ORDER = ['pixel', 'original', 'cave', 'blueprint', 'mosaic', 'aero', 'engraving', 'tapestry', 'golden', 'ukiyoe', 'kamon', 'chrome']
+const LOOK_ORDER = ['pixel', 'original', 'cave', 'blueprint', 'mosaic', 'aero', 'engraving', 'tapestry', 'golden', 'ukiyoe', 'kamon', 'chrome', 'blackfigure', 'heraldry', 'delft', 'atlas', 'chrono']
 const HERO: Shot[] = LOOK_ORDER.map((look, i) => ({
   look,
   // More looks than moves or lines: each list comes round again.
