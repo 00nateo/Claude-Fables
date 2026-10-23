@@ -21,15 +21,20 @@ import { BLUEPRINT } from './styles/blueprint'
 import { CAVE } from './styles/cave'
 import { CHROME } from './styles/chrome'
 import { CHRONO } from './styles/chrono'
+import { CONTOUR } from './styles/contour'
 import { CUBISM } from './styles/cubism'
 import { DELFT } from './styles/delft'
 import { ENGRAVING } from './styles/engraving'
+import { GLYPHS } from './styles/glyphs'
 import { GOLDEN } from './styles/golden'
 import { HERALDRY } from './styles/heraldry'
 import { KAMON } from './styles/kamon'
 import { MIDCENTURY } from './styles/midcentury'
 import { MOSAIC } from './styles/mosaic'
 import { NOUVEAU } from './styles/nouveau'
+import { OPART } from './styles/opart'
+import { PIN } from './styles/pin'
+import { POPART } from './styles/popart'
 import { TAPESTRY } from './styles/tapestry'
 import { TATTOO } from './styles/tattoo'
 import { UKIYOE } from './styles/ukiyoe'
@@ -195,6 +200,16 @@ export const LOOKS: Record<string, Look> = {
   tattoo: TATTOO,
 
   midcentury: MIDCENTURY,
+
+  opart: OPART,
+
+  popart: POPART,
+
+  contour: CONTOUR,
+
+  pin: PIN,
+
+  glyphs: GLYPHS,
 }
 
 export const LOOK_NAMES = Object.keys(LOOKS)
