@@ -12,7 +12,7 @@
 <p align="center">
   <img alt="Claude Code mod" src="https://img.shields.io/badge/Claude_Code-mod-d97757">
   <img alt="Desktop app" src="https://img.shields.io/badge/runs_in-the_desktop_app-3b3a36">
-  <img alt="27 styles" src="https://img.shields.io/badge/styles-27-6a5acd">
+  <img alt="32 styles" src="https://img.shields.io/badge/styles-32-6a5acd">
   <img alt="20 actions" src="https://img.shields.io/badge/actions-20-2e8b57">
   <img alt="7 scenes" src="https://img.shields.io/badge/scenes-7-c46a2a">
 </p>
@@ -35,7 +35,7 @@ While Claude works, Fables watches each tool call it makes and each line it says
 - **A scene every few seconds:** each tool call and line Claude says becomes a moment in a story.
 - **20 actions:** Claude walks, sneaks, digs, trips, shrugs, sleeps and celebrates, matched to the work.
 - **7 hand-lit scenes:** forest, space, city, desert, volcano, lab and night village.
-- **27 styles:** from pixel art to ukiyo-e to liquid chrome, every element redrawn in the medium.
+- **32 styles:** from pixel art to ukiyo-e to liquid chrome, every element redrawn in the medium.
 - **Captions that read like a terminal:** files, functions, numbers, failures and successes each set apart.
 - **Safe by design:** the model writes data, never code, and a bad reply is simply skipped.
 
@@ -104,7 +104,7 @@ tool calls, Claude's own words ──► activity log (last 14 lines)
 | `hooks/sprites.ts` | The pixel-art library: Claude in two walk frames, plus 30+ props |
 | `hooks/svg.ts` | Scene → animated SVG: backdrops, particles, props, hero, caption |
 | `hooks/looks.ts` | The looks: Pixel Art, the Original, and the registry of styles |
-| `hooks/styles/*.ts` | The twenty-five gallery styles, each an art bible: inks, how each kind of element is drawn, Claude, caption, tag, frame |
+| `hooks/styles/*.ts` | The thirty gallery styles, each an art bible: inks, how each kind of element is drawn, Claude, caption, tag, frame |
 | `hooks/art/roles.ts`, `hooks/art/painter.ts`, `hooks/art/ink.ts` | The roles scenes paint their elements under, and the painter a style redraws them with |
 | `hooks/grade.ts` | The medium a grid style sets the drawn stage into: tesserae or a weave |
 | `hooks/clawd3d.ts` | The 3D Claude: the box model, its motions and its projection (ported from the gallery) |
@@ -199,7 +199,7 @@ In the Pixel Art look (the default), the whole stage, scenery and Claude togethe
 
 Two looks draw the authored scenes as they are: **Pixel Art** (`pixel`, the default) and the **Original** (`original`), the same scenes drawn smooth.
 
-Twenty-five more styles, from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery), are artworks of their own. Each one redraws every element of every scene, Claude, the caption bubble, the chapter tag and the frame in its own medium, translated from the gallery's original plate. They are cosmetic only: the story, the scenery's composition and Claude's path stay as they are, and nothing is added to a scene.
+Thirty more styles, from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery), are artworks of their own. Each one redraws every element of every scene, Claude, the caption bubble, the chapter tag and the frame in its own medium, translated from the gallery's original plate. They are cosmetic only: the story, the scenery's composition and Claude's path stay as they are, and nothing is added to a scene.
 
 | Style | `/fables style …` | The artwork |
 | --- | --- | --- |
@@ -228,6 +228,11 @@ Twenty-five more styles, from the [Claude Mascot Style Gallery](https://github.c
 | Contour Map | `contour` | Hypsometric tints ringed with brown contours and index contours; the sky a chart-blue Sea of Context with wave marks and shore ripples; woodland rings, hatched built-up areas, dashed shoals; a compass-rose sun and Mt. Prompt's spot height; a graduated neatline, north arrow and kilotoken scale bar |
 | Enamel Pin | `pin` | Hard-enamel cells walled in lit gold wire; banded enamel skies with faceted gold star pins; glitter-enamel nights; Claude as a coral pin with a pearl lid and a gloss streak; a pink backing card with a hang slot, a terminal-window chapter pin |
 | Atlas Glyph Tiles | `glyphs` | Every solid thing set in glyph tiles on one grid, each in a black gutter with a ■ or a thin /; signal orange on an azure field, stepped black shadows, blinking stray glyphs; a terminal band streaming tiles |
+| Blob Mosaic | `blob` | Flat vivid tiles with darker grout on one flat chapter ground; black stepped shadows; sun, moon and Earth as blobs with glyph eyes; a bobbing crowd in the corners; a tile-lettered tag and a tiled caption panel |
+| Phosphor Streams | `phosphor` | Glyph cells printed over the sampled scene; falling phosphor streams that stop at once; dim glyph masses with bright contours; a pale green Claude with black-cell eyes; a 01:29 clock, a scanline tube and a blinking prompt |
+| Density Portrait | `density` | A black terminal of monospace cells streaming hex handles; the picture is only how brightly each character glows; far ranks sink into a near-empty field; amber type for fire and lamps; Claude in the densest type inside a margin of empty cells; a terminal pane with a status line and a prompt cursor |
+| Density Field | `field` | A grid of monospace cells, each glyph of ` .:-=+*#` picked by brightness and set in its cell's dim tint; land a step denser for each step nearer, never past `=`; bright-blob suns; Claude in `#` and `*` phosphor with a ring of empty cells; drifting "Hi" packets; a shell-prompt tag and a box-drawn caption |
+| Teletext Page | `teletext` | Mosaic blocks in teletext's eight colours on a black page; checker dithers for in-between tones and block grit for ground; banded skies; flashing plus-sign stars; a header row with a ticking clock and a Fastext row; a yellow-on-blue title band and a boxed subtitle |
 
 <details>
 <summary><b>How a style redraws a scene</b></summary>
@@ -270,5 +275,5 @@ Claude Fables was developed entirely in Claude Code cloud environments: the mod,
 ## Credits
 
 - Claude's 3D model and its projection are ported from the gallery's engine by [ChetasLua](https://github.com/ChetasLua), under the MIT License.
-- The twenty-five gallery styles come from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery).
+- The thirty gallery styles come from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery).
 - Captions are set in [Monocraft](https://github.com/IdreesInc/Monocraft) by Idrees Hassan, under the SIL Open Font License (`fonts/Monocraft-OFL.txt`).

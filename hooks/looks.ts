@@ -17,6 +17,7 @@ import { AERO } from './styles/aero'
 import { ATLAS } from './styles/atlas'
 import { BAUHAUS } from './styles/bauhaus'
 import { BLACKFIGURE } from './styles/blackfigure'
+import { BLOB } from './styles/blob'
 import { BLUEPRINT } from './styles/blueprint'
 import { CAVE } from './styles/cave'
 import { CHROME } from './styles/chrome'
@@ -24,7 +25,9 @@ import { CHRONO } from './styles/chrono'
 import { CONTOUR } from './styles/contour'
 import { CUBISM } from './styles/cubism'
 import { DELFT } from './styles/delft'
+import { DENSITY } from './styles/density'
 import { ENGRAVING } from './styles/engraving'
+import { FIELD } from './styles/field'
 import { GLYPHS } from './styles/glyphs'
 import { GOLDEN } from './styles/golden'
 import { HERALDRY } from './styles/heraldry'
@@ -33,10 +36,12 @@ import { MIDCENTURY } from './styles/midcentury'
 import { MOSAIC } from './styles/mosaic'
 import { NOUVEAU } from './styles/nouveau'
 import { OPART } from './styles/opart'
+import { PHOSPHOR } from './styles/phosphor'
 import { PIN } from './styles/pin'
 import { POPART } from './styles/popart'
 import { TAPESTRY } from './styles/tapestry'
 import { TATTOO } from './styles/tattoo'
+import { TELETEXT } from './styles/teletext'
 import { UKIYOE } from './styles/ukiyoe'
 
 /** How one art pixel of a sprite is drawn. */
@@ -210,6 +215,16 @@ export const LOOKS: Record<string, Look> = {
   pin: PIN,
 
   glyphs: GLYPHS,
+
+  blob: BLOB,
+
+  phosphor: PHOSPHOR,
+
+  density: DENSITY,
+
+  field: FIELD,
+
+  teletext: TELETEXT,
 }
 
 export const LOOK_NAMES = Object.keys(LOOKS)

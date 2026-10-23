@@ -21,8 +21,8 @@ describe('looks', () => {
     expect(lookFor(undefined).name).toBe(DEFAULT_LOOK)
   })
 
-  test('the twenty-five styles are there, and found by any fair spelling', () => {
-    expect(STYLE_NAMES.length).toBe(25)
+  test('the thirty styles are there, and found by any fair spelling', () => {
+    expect(STYLE_NAMES.length).toBe(30)
     expect(findLook('Ukiyo-e')?.name).toBe('ukiyoe')
     expect(findLook('golden age')?.name).toBe('golden')
     expect(findLook('frutiger aero')?.name).toBe('aero')
@@ -46,6 +46,11 @@ describe('looks', () => {
     expect(findLook('Contour Map')?.name).toBe('contour')
     expect(findLook('Enamel Pin')?.name).toBe('pin')
     expect(findLook('Atlas Glyph Tiles')?.name).toBe('glyphs')
+    expect(findLook('Blob Mosaic')?.name).toBe('blob')
+    expect(findLook('Phosphor Streams')?.name).toBe('phosphor')
+    expect(findLook('Density Portrait')?.name).toBe('density')
+    expect(findLook('Density Field')?.name).toBe('field')
+    expect(findLook('Teletext Page')?.name).toBe('teletext')
     expect(findLook('nonsense')).toBeUndefined()
   })
 
