@@ -16,12 +16,14 @@ import type { HeroPainter } from './hero3d'
 import { AERO } from './styles/aero'
 import { ATLAS } from './styles/atlas'
 import { BAUHAUS } from './styles/bauhaus'
+import { BILL } from './styles/bill'
 import { BLACKFIGURE } from './styles/blackfigure'
 import { BLOB } from './styles/blob'
 import { BLUEPRINT } from './styles/blueprint'
 import { CAVE } from './styles/cave'
 import { CHROME } from './styles/chrome'
 import { CHRONO } from './styles/chrono'
+import { CONSTRUCTIVISM } from './styles/constructivism'
 import { CONTOUR } from './styles/contour'
 import { CUBISM } from './styles/cubism'
 import { DELFT } from './styles/delft'
@@ -43,6 +45,9 @@ import { PHOSPHOR } from './styles/phosphor'
 import { PIN } from './styles/pin'
 import { POEM } from './styles/poem'
 import { POPART } from './styles/popart'
+import { PROPORTION } from './styles/proportion'
+import { SAMPLER } from './styles/sampler'
+import { SILHOUETTE } from './styles/silhouette'
 import { TAPESTRY } from './styles/tapestry'
 import { TATTOO } from './styles/tattoo'
 import { TELETEXT } from './styles/teletext'
@@ -240,6 +245,16 @@ export const LOOKS: Record<string, Look> = {
   glass: GLASS,
 
   initial: INITIAL,
+
+  proportion: PROPORTION,
+
+  silhouette: SILHOUETTE,
+
+  sampler: SAMPLER,
+
+  bill: BILL,
+
+  constructivism: CONSTRUCTIVISM,
 }
 
 export const LOOK_NAMES = Object.keys(LOOKS)

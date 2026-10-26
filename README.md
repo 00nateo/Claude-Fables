@@ -12,7 +12,7 @@
 <p align="center">
   <img alt="Claude Code mod" src="https://img.shields.io/badge/Claude_Code-mod-d97757">
   <img alt="Desktop app" src="https://img.shields.io/badge/runs_in-the_desktop_app-3b3a36">
-  <img alt="37 styles" src="https://img.shields.io/badge/styles-37-6a5acd">
+  <img alt="42 styles" src="https://img.shields.io/badge/styles-42-6a5acd">
   <img alt="20 actions" src="https://img.shields.io/badge/actions-20-2e8b57">
   <img alt="7 scenes" src="https://img.shields.io/badge/scenes-7-c46a2a">
 </p>
@@ -35,7 +35,7 @@ While Claude works, Fables watches each tool call it makes and each line it says
 - **A scene every few seconds:** each tool call and line Claude says becomes a moment in a story.
 - **20 actions:** Claude walks, sneaks, digs, trips, shrugs, sleeps and celebrates, matched to the work.
 - **7 hand-lit scenes:** forest, space, city, desert, volcano, lab and night village.
-- **37 styles:** from pixel art to ukiyo-e to liquid chrome, every element redrawn in the medium.
+- **42 styles:** from pixel art to ukiyo-e to liquid chrome, every element redrawn in the medium.
 - **Captions that read like a terminal:** files, functions, numbers, failures and successes each set apart.
 - **Safe by design:** the model writes data, never code, and a bad reply is simply skipped.
 
@@ -104,7 +104,7 @@ tool calls, Claude's own words ──► activity log (last 14 lines)
 | `hooks/sprites.ts` | The pixel-art library: Claude in two walk frames, plus 30+ props |
 | `hooks/svg.ts` | Scene → animated SVG: backdrops, particles, props, hero, caption |
 | `hooks/looks.ts` | The looks: Pixel Art, the Original, and the registry of styles |
-| `hooks/styles/*.ts` | The thirty-five gallery styles, each an art bible: inks, how each kind of element is drawn, Claude, caption, tag, frame |
+| `hooks/styles/*.ts` | The forty gallery styles, each an art bible: inks, how each kind of element is drawn, Claude, caption, tag, frame |
 | `hooks/art/roles.ts`, `hooks/art/painter.ts`, `hooks/art/ink.ts` | The roles scenes paint their elements under, and the painter a style redraws them with |
 | `hooks/grade.ts` | The medium a grid style sets the drawn stage into: tesserae or a weave |
 | `hooks/clawd3d.ts` | The 3D Claude: the box model, its motions and its projection (ported from the gallery) |
@@ -199,7 +199,7 @@ In the Pixel Art look (the default), the whole stage, scenery and Claude togethe
 
 Two looks draw the authored scenes as they are: **Pixel Art** (`pixel`, the default) and the **Original** (`original`), the same scenes drawn smooth.
 
-Thirty-five more styles, from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery), are artworks of their own. Each one redraws every element of every scene, Claude, the caption bubble, the chapter tag and the frame in its own medium, translated from the gallery's original plate. They are cosmetic only: the story, the scenery's composition and Claude's path stay as they are, and nothing is added to a scene.
+Forty more styles, from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery), are artworks of their own. Each one redraws every element of every scene, Claude, the caption bubble, the chapter tag and the frame in its own medium, translated from the gallery's original plate. They are cosmetic only: the story, the scenery's composition and Claude's path stay as they are, and nothing is added to a scene.
 
 | Style | `/fables style …` | The artwork |
 | --- | --- | --- |
@@ -238,6 +238,11 @@ Thirty-five more styles, from the [Claude Mascot Style Gallery](https://github.c
 | Tomb Painting | `tomb` | Flat earth pigments in a carbon contour; bare plaster by day, Nut's starred blue ceiling by night; Ra's disc and Khonsu's moon; Claude in ochre with a linen kilt and kohl eyes; khekher frieze, hieroglyph column, cartouche |
 | Stained Glass | `glass` | Gothic lancet of leaded pot-metal glass; cobalt, ruby, gold and emerald panes; jeweled pane-field skies; grisaille detail; gold quatrefoil stars |
 | Illuminated Initial | `initial` | Tempera and gold on vellum; ultramarine sky with gold diaper; gilded initial and ivy border; ink-lined flat pigments; flower-strewn fields; gold stars on lapis by night |
+| Proportion Study | `proportion` | Foxed notebook paper; iron-gall ink with left-handed hatching; sfumato distance; red chalk fire; mirror writing and compass constructions; blue prepared paper with white chalk at night |
+| Silhouette | `silhouette` | Cut-paper layers on cream card; depth told in paper tone; moonlit blue-grey night; gilt sun, moon, stars and fire; black portrait Claude with cut-through eyes; beaded gilt frame |
+| Sampler | `sampler` | Cross-stitch on linen count, one cross per square; turkey red, indigo, leaf green, walnut, gold silk; indigo skies by day and night; stitched green-and-red border; captions on linen in a running stitch |
+| Strongman Bill | `bill` | Two-colour letterpress, vermilion and black on foxed buff; woodcut line hatching along each grain; red block off register for fire, sun and lamps; black-ruled night sky with bare-paper stars; starred red banner and ruled notice captions |
+| Constructivism | `constructivism` | Three inks on newsprint; halftone screens for tones; black diagonal sky bands; red sun disc, red night; Claude as a pasted photomontage cut-out; grotesque chapter on a red wedge |
 
 <details>
 <summary><b>How a style redraws a scene</b></summary>
@@ -280,5 +285,5 @@ Claude Fables was developed entirely in Claude Code cloud environments: the mod,
 ## Credits
 
 - Claude's 3D model and its projection are ported from the gallery's engine by [ChetasLua](https://github.com/ChetasLua), under the MIT License.
-- The thirty-five gallery styles come from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery).
+- The forty gallery styles come from the [Claude Mascot Style Gallery](https://github.com/henrik-thevibe/Claude-Mascot-Style-Gallery).
 - Captions are set in [Monocraft](https://github.com/IdreesInc/Monocraft) by Idrees Hassan, under the SIL Open Font License (`fonts/Monocraft-OFL.txt`).

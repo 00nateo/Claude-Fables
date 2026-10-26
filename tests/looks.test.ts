@@ -21,8 +21,8 @@ describe('looks', () => {
     expect(lookFor(undefined).name).toBe(DEFAULT_LOOK)
   })
 
-  test('the thirty-five styles are there, and found by any fair spelling', () => {
-    expect(STYLE_NAMES.length).toBe(35)
+  test('the forty styles are there, and found by any fair spelling', () => {
+    expect(STYLE_NAMES.length).toBe(40)
     expect(findLook('Ukiyo-e')?.name).toBe('ukiyoe')
     expect(findLook('golden age')?.name).toBe('golden')
     expect(findLook('frutiger aero')?.name).toBe('aero')
@@ -56,6 +56,11 @@ describe('looks', () => {
     expect(findLook('Tomb Painting')?.name).toBe('tomb')
     expect(findLook('Stained Glass')?.name).toBe('glass')
     expect(findLook('Illuminated Initial')?.name).toBe('initial')
+    expect(findLook('Proportion Study')?.name).toBe('proportion')
+    expect(findLook('Silhouette')?.name).toBe('silhouette')
+    expect(findLook('Sampler')?.name).toBe('sampler')
+    expect(findLook('Strongman Bill')?.name).toBe('bill')
+    expect(findLook('Constructivism')?.name).toBe('constructivism')
     expect(findLook('nonsense')).toBeUndefined()
   })
 
