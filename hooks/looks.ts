@@ -28,20 +28,25 @@ import { DELFT } from './styles/delft'
 import { DENSITY } from './styles/density'
 import { ENGRAVING } from './styles/engraving'
 import { FIELD } from './styles/field'
+import { GLASS } from './styles/glass'
 import { GLYPHS } from './styles/glyphs'
 import { GOLDEN } from './styles/golden'
 import { HERALDRY } from './styles/heraldry'
+import { INITIAL } from './styles/initial'
 import { KAMON } from './styles/kamon'
+import { MAZE } from './styles/maze'
 import { MIDCENTURY } from './styles/midcentury'
 import { MOSAIC } from './styles/mosaic'
 import { NOUVEAU } from './styles/nouveau'
 import { OPART } from './styles/opart'
 import { PHOSPHOR } from './styles/phosphor'
 import { PIN } from './styles/pin'
+import { POEM } from './styles/poem'
 import { POPART } from './styles/popart'
 import { TAPESTRY } from './styles/tapestry'
 import { TATTOO } from './styles/tattoo'
 import { TELETEXT } from './styles/teletext'
+import { TOMB } from './styles/tomb'
 import { UKIYOE } from './styles/ukiyoe'
 
 /** How one art pixel of a sprite is drawn. */
@@ -225,6 +230,16 @@ export const LOOKS: Record<string, Look> = {
   field: FIELD,
 
   teletext: TELETEXT,
+
+  maze: MAZE,
+
+  poem: POEM,
+
+  tomb: TOMB,
+
+  glass: GLASS,
+
+  initial: INITIAL,
 }
 
 export const LOOK_NAMES = Object.keys(LOOKS)
