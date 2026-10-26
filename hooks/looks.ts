@@ -36,14 +36,17 @@ import { GLYPHS } from './styles/glyphs'
 import { GOLDEN } from './styles/golden'
 import { HANDHELD } from './styles/handheld'
 import { HERALDRY } from './styles/heraldry'
+import { HOLO } from './styles/holo'
 import { INITIAL } from './styles/initial'
 import { KAMON } from './styles/kamon'
+import { LOWPOLY } from './styles/lowpoly'
 import { MAZE } from './styles/maze'
 import { MIDCENTURY } from './styles/midcentury'
 import { MOSAIC } from './styles/mosaic'
 import { NEON } from './styles/neon'
 import { NOUVEAU } from './styles/nouveau'
 import { OPART } from './styles/opart'
+import { PATCH } from './styles/patch'
 import { PHOSPHOR } from './styles/phosphor'
 import { PIN } from './styles/pin'
 import { POEM } from './styles/poem'
@@ -53,6 +56,8 @@ import { PROPORTION } from './styles/proportion'
 import { SAMPLER } from './styles/sampler'
 import { SILHOUETTE } from './styles/silhouette'
 import { SILKSCREEN } from './styles/silkscreen'
+import { SKIN } from './styles/skin'
+import { STENCIL } from './styles/stencil'
 import { TAPESTRY } from './styles/tapestry'
 import { TATTOO } from './styles/tattoo'
 import { TELETEXT } from './styles/teletext'
@@ -270,6 +275,16 @@ export const LOOKS: Record<string, Look> = {
   printer: PRINTER,
 
   handheld: HANDHELD,
+
+  lowpoly: LOWPOLY,
+
+  stencil: STENCIL,
+
+  patch: PATCH,
+
+  skin: SKIN,
+
+  holo: HOLO,
 }
 
 export const LOOK_NAMES = Object.keys(LOOKS)
