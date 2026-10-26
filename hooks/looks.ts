@@ -26,6 +26,7 @@ import { CHRONO } from './styles/chrono'
 import { CONSTRUCTIVISM } from './styles/constructivism'
 import { CONTOUR } from './styles/contour'
 import { CUBISM } from './styles/cubism'
+import { DECO } from './styles/deco'
 import { DELFT } from './styles/delft'
 import { DENSITY } from './styles/density'
 import { ENGRAVING } from './styles/engraving'
@@ -33,21 +34,25 @@ import { FIELD } from './styles/field'
 import { GLASS } from './styles/glass'
 import { GLYPHS } from './styles/glyphs'
 import { GOLDEN } from './styles/golden'
+import { HANDHELD } from './styles/handheld'
 import { HERALDRY } from './styles/heraldry'
 import { INITIAL } from './styles/initial'
 import { KAMON } from './styles/kamon'
 import { MAZE } from './styles/maze'
 import { MIDCENTURY } from './styles/midcentury'
 import { MOSAIC } from './styles/mosaic'
+import { NEON } from './styles/neon'
 import { NOUVEAU } from './styles/nouveau'
 import { OPART } from './styles/opart'
 import { PHOSPHOR } from './styles/phosphor'
 import { PIN } from './styles/pin'
 import { POEM } from './styles/poem'
 import { POPART } from './styles/popart'
+import { PRINTER } from './styles/printer'
 import { PROPORTION } from './styles/proportion'
 import { SAMPLER } from './styles/sampler'
 import { SILHOUETTE } from './styles/silhouette'
+import { SILKSCREEN } from './styles/silkscreen'
 import { TAPESTRY } from './styles/tapestry'
 import { TATTOO } from './styles/tattoo'
 import { TELETEXT } from './styles/teletext'
@@ -255,6 +260,16 @@ export const LOOKS: Record<string, Look> = {
   bill: BILL,
 
   constructivism: CONSTRUCTIVISM,
+
+  deco: DECO,
+
+  neon: NEON,
+
+  silkscreen: SILKSCREEN,
+
+  printer: PRINTER,
+
+  handheld: HANDHELD,
 }
 
 export const LOOK_NAMES = Object.keys(LOOKS)
