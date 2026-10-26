@@ -21,8 +21,8 @@ describe('looks', () => {
     expect(lookFor(undefined).name).toBe(DEFAULT_LOOK)
   })
 
-  test('the fifty styles are there, and found by any fair spelling', () => {
-    expect(STYLE_NAMES.length).toBe(50)
+  test('the fifty-one styles are there, and found by any fair spelling', () => {
+    expect(STYLE_NAMES.length).toBe(51)
     expect(findLook('Ukiyo-e')?.name).toBe('ukiyoe')
     expect(findLook('golden age')?.name).toBe('golden')
     expect(findLook('frutiger aero')?.name).toBe('aero')
@@ -71,6 +71,7 @@ describe('looks', () => {
     expect(findLook('Patch')?.name).toBe('patch')
     expect(findLook('Media Player Skin')?.name).toBe('skin')
     expect(findLook('Holo Sticker')?.name).toBe('holo')
+    expect(findLook('Vista')?.name).toBe('vista')
     expect(findLook('nonsense')).toBeUndefined()
   })
 

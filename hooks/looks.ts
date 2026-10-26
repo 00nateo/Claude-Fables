@@ -63,6 +63,7 @@ import { TATTOO } from './styles/tattoo'
 import { TELETEXT } from './styles/teletext'
 import { TOMB } from './styles/tomb'
 import { UKIYOE } from './styles/ukiyoe'
+import { VISTA } from './styles/vista'
 
 /** How one art pixel of a sprite is drawn. */
 export type Cell = 'solid'
@@ -285,6 +286,8 @@ export const LOOKS: Record<string, Look> = {
   skin: SKIN,
 
   holo: HOLO,
+
+  vista: VISTA,
 }
 
 export const LOOK_NAMES = Object.keys(LOOKS)
